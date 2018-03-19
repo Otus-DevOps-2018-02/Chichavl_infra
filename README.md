@@ -42,3 +42,13 @@ ProxyCommand ssh -W %h:%p appuser@104.155.36.168 # Bastion external IP
 
 bastion_IP = 104.155.36.168
 someinternalhost_IP = 10.128.0.2
+
+# Работа с gcloud
+## Создание инстанса со startup-script
+```
+gcloud compute instances create reddit-app --boot-disk-size=10GB --image-family ubuntu-1604-lts --image-project=ubuntu-os-cloud --machine-type=g1-small --tags puma-server --restart-on-failure --metadata startup-script='wget -O - https://gist.githubusercontent.com/Chichavl/43179235635ac934b6780a03cbee1ec8/raw/34cdc303ffbeb8aff4362515318db599d8b72ec2/startup_script.sh | bash'
+```
+## Создание правила Firewall`а
+```
+gcloud compute --project=infra-197910 firewall-rules create default-puma-server --direction=INGRESS --priority=1000 --network=default --action=ALLOW --rules=tcp:9292 --source-ranges=0.0.0.0/0 --target-tags=puma-server
+```
