@@ -6,7 +6,7 @@ Chichavl Infra repository
 ## Подключение одной командой
 `ssh -i ~/.ssh/appuser -A appuser@104.155.36.168 'ssh -tt 10.128.0.2'` - используем ssh, чтобы запустить комманду ssh -tt 10.128.0.2 на бастион хосте, -tt нужны для корректного выделеления tty на внутреннем хосте
 Но оно отдает душком и с ним есть проблема, команды сначала выводятся в консоль, потом выводится результат их исполнения
-
+```
 Last login: Tue Mar 13 21:22:36 2018 from 10.132.0.2
 appuser@someinternalhost:~$ hostname
 hostname
@@ -23,7 +23,7 @@ drwx------ 2 appuser appuser 4096 Mar 13 11:15 .cache
 -rw-r--r-- 1 appuser appuser 655 May 16 2017 .profile
 drwx------ 2 appuser appuser 4096 Mar 13 11:10 .ssh
 appuser@someinternalhost:~$
-
+```
 Не могу понять почему так происходит
 
 И я бы решил первое задание также через ProxyCommand, как и второе, так как оно работает более ожидаемо и стабильно
