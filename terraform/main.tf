@@ -4,8 +4,12 @@ provider "google" {
     region = "${var.region}"
 }
 
+resource "google_compute_address" "app_ip" {
+    name = "reddit-app-ip"
+}
+
 resource "google_compute_instance" "app" {
-    count = 2
+    count = 1
     name = "reddit-app${count.index}"
     machine_type = "g1-small"
     zone = "${var.zone}"
@@ -27,7 +31,9 @@ resource "google_compute_instance" "app" {
         # сеть, к которой присоединить данный интерфейс
         network = "default"
         # использовать ephemeral IP для доступа из Интернет
-        access_config {}
+        access_config {
+            nat_ip = "${google_compute_address.app_ip.address}"
+        }
     }
 
     connection {
@@ -60,6 +66,19 @@ resource "google_compute_firewall" "firewall_puma" {
     source_ranges = ["0.0.0.0/0"]
     # Правило применимо для инстансов с тегом ...
     target_tags = ["reddit-app"]
+}
+
+resource "google_compute_firewall" "firewall_ssh" {
+    name = "default-allow-ssh"
+    # Название сети, в которой действует правило
+    network = "default"
+    # Какой доступ разрешить
+    allow {
+        protocol = "tcp"
+        ports = ["22"]
+    }
+    # Каким адресам разрешаем доступ
+    source_ranges = ["0.0.0.0/0"]
 }
 
 #resource "google_compute_project_metadata_item" "default" {
