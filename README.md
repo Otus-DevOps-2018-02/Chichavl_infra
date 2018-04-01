@@ -73,3 +73,12 @@ resource "google_compute_project_metadata_item" "default" {
 }
 ```
 Обратите внимание, terraform удалит ключи, добавленные не через него! 
+
+## Балансировка нагрузки
+Балансировка нагрузки в GCP происходит через 5 слоев абстракций:
+- google_compute_global_forwarding_rule
+- google_compute_target_http_proxy
+- google_compute_url_map
+- google_compute_backend_service
+- google_compute_instance_group
+Добавление хостов копированием нарушает принцип программирования DRY. Так же копирование часто приносит ошибки не изменненых переменных и чрезмерного разрастания кодовой базы.
