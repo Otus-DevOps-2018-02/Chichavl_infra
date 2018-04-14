@@ -82,3 +82,15 @@ resource "google_compute_project_metadata_item" "default" {
 - google_compute_backend_service
 - google_compute_instance_group
 Добавление хостов копированием нарушает принцип программирования DRY. Так же копирование часто приносит ошибки не изменненых переменных и чрезмерного разрастания кодовой базы.
+
+## Хранение состояния на удаленном backend
+Для хранения состояния нам необходим bucket, например на gcp.
+```
+terraform {
+  backend "gcs" {
+    bucket = "chichavl-storage-bucket"
+    prefix = "terraform/state"
+  }
+}
+```
+После этого необходимо переинициализировать terraform коммандой `terraform init`, если все сделано верно, программа предложит перенести локальный файл состояния в облако.
