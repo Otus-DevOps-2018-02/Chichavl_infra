@@ -2,7 +2,7 @@ resource "google_compute_instance" "db" {
   name         = "reddit-db"
   machine_type = "g1-small"
   zone         = "${var.zone}"
-  tags         = ["reddit-app"]
+  tags         = ["reddit-db"]
 
   metadata {
     ssh-keys = "appuser:${file(var.public_key_path)}"
@@ -23,7 +23,17 @@ resource "google_compute_instance" "db" {
     # использовать ephemeral IP для доступа из Интернет
     access_config {}
   }
+  
+  provisioner "file" {
+    source = "${path.module}/files/mongod.conf"
+    destination = "/tmp/mongod.conf"
+  }
+
+  provisioner "remote-exec" {
+    script = "${path.module}/files/deploy.sh"
+  }
 }
+
 
 resource "google_compute_firewall" "firewall_mongo" {
   name    = "allow-mongo-default"
@@ -40,3 +50,4 @@ resource "google_compute_firewall" "firewall_mongo" {
   # порт будет доступен только для инстансов с тегом ...
   source_tags = ["reddit-app"]
 }
+
