@@ -24,6 +24,13 @@ resource "google_compute_instance" "db" {
     access_config {}
   }
   
+  connection {
+    type = "ssh"
+    user = "appuser"
+    agent = false
+    private_key = "${file(var.private_key_path)}"
+  }
+
   provisioner "file" {
     source = "${path.module}/files/mongod.conf"
     destination = "/tmp/mongod.conf"
