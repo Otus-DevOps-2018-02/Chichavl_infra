@@ -10,7 +10,7 @@ module "app" {
   private_key_path= "${var.private_key_path}"
   zone            = "${var.zone}"
   app_disk_image  = "${var.app_disk_image}"
-  db_ip           = "${module.db.db_external_ip}"
+  db_ip           = "${module.db.db_internal_ip}"
 }
 
 module "db" {
@@ -23,5 +23,5 @@ module "db" {
 
 module "vpc" {
   source        = "../modules/vpc"
-  source_ranges = ["37.187.111.197/32"]
+  source_ranges = ["0.0.0.0/0"]
 }
