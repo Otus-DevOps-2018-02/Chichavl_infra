@@ -3,7 +3,7 @@
         "project_id": null,
         "source_image_family": null,
         "machine_type": "f1-micro",
-        "image_description": "Base image for reddit monolith app",
+        "image_description": "Base image for reddit app with ruby",
         "tags":"puma-server",
         "disk_type": "pd-standard",
         "disk_size": "10",
@@ -13,8 +13,8 @@
         {
             "type": "googlecompute",
             "project_id": "{{user `project_id`}}",
-            "image_name": "reddit-base-{{timestamp}}",
-            "image_family": "reddit-base",
+            "image_name": "reddit-app-base-{{timestamp}}",
+            "image_family": "reddit-app-base",
             "source_image_family": "{{user `source_image_family`}}",
             "zone": "europe-west1-b",
             "ssh_username": "appuser",
@@ -31,12 +31,6 @@
             "type": "shell",
             "script": "scripts/install_ruby.sh",
             "execute_command": "sudo {{.Path}}"
-        },
-        {
-            "type":"shell",
-            "script":"scripts/install_mongodb.sh",
-            "execute_command":"sudo {{.Path}}"
         }
     ]
 }
-

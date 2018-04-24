@@ -23,7 +23,7 @@ resource "google_compute_backend_service" "default" {
   timeout_sec = 10
 
   backend {
-      group = "${google_compute_instance_group.reddit-app-group.self_link}"
+    group = "${google_compute_instance_group.reddit-app-group.self_link}"
   }
 
   health_checks = ["${google_compute_http_health_check.default.self_link}"]
