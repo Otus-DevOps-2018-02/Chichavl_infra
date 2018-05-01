@@ -30,15 +30,6 @@ resource "google_compute_instance" "db" {
     agent = false
     private_key = "${file(var.private_key_path)}"
   }
-
-  provisioner "file" {
-    source = "${path.module}/files/mongod.conf"
-    destination = "/tmp/mongod.conf"
-  }
-
-  provisioner "remote-exec" {
-    script = "${path.module}/files/deploy.sh"
-  }
 }
 
 
