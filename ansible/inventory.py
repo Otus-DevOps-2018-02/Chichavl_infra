@@ -11,7 +11,8 @@ class Inventory(object):
             "app": {
                 "hosts": ["appserver"],
                 "vars": {
-                    "ansible_host": tfstate['modules'][0]['outputs']['app_external_ip']['value']
+                    "ansible_host": tfstate['modules'][0]['outputs']['app_external_ip']['value'],
+                    "db_host": tfstate['modules'][0]['outputs']['db_internal_ip']['value']
                 }
             },
             "db": {
