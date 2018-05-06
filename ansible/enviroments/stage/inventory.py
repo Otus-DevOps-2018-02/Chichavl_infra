@@ -12,13 +12,23 @@ class Inventory(object):
                 "hosts": ["appserver"],
                 "vars": {
                     "ansible_host": tfstate['modules'][0]['outputs']['app_external_ip']['value'],
-                    "db_host": tfstate['modules'][0]['outputs']['db_internal_ip']['value']
+                    "db_host": tfstate['modules'][0]['outputs']['db_internal_ip']['value'],
+                    "env": "stage",
+                    "nginx_sites": {
+                    "default": [
+                        "listen 80",
+                        "server_name \"reddit\"",
+                        "location / { proxy_pass http://127.0.0.1:9292; }"
+                    ]
+                    }
                 }
             },
             "db": {
                 "hosts": ["dbserver"],
                 "vars": {
-                    "ansible_host": tfstate['modules'][0]['outputs']['db_external_ip']['value']
+                    "ansible_host": tfstate['modules'][0]['outputs']['db_external_ip']['value'],
+                    "mongo_bind_ip": "0.0.0.0",
+                    "env": "stage"
                 }
             }
         }
@@ -36,4 +46,3 @@ if __name__ == '__main__':
 
     if args.list:
         print(inventory.list())
-
