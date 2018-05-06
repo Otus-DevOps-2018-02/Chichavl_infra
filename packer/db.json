@@ -29,9 +29,8 @@
     "provisioners": [
         {
             "type":"ansible",
-            "playbook_file":"ansible/packer_db.yml",
-            "user": "appuser",
-            "extra_arguments": [ "-vvv", "-b" ]
+            "playbook_file":"ansible/playbooks/packer_db.yml",
+            "user": "appuser"
         }
     ]
 }
