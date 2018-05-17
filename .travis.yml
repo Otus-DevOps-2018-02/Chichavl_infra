@@ -6,7 +6,7 @@ before_install:
   - echo "Ansible begin"
   - sudo apt-get update 
   - sudo apt-get install -y ansible
-  - sudo pip2 install ansible-lint
+  - sudo pip2 install splitter ansible-lint
 install:
   - echo "Packer begin"
   -  packer_url=$(curl https://releases.hashicorp.com/index.json | jq '{packer}' | egrep "linux.*amd64" | sort --version-sort -r | head -1 | awk -F[\"] '{print $4}')
@@ -31,10 +31,9 @@ install:
   - echo 'export PATH=~/terraform/:~/packer/:~/tflint/:$PATH' >>~/.bashrc
   - source ~/.bashrc
 script:
-  - cp ~/build/Otus-DevOps-2018-02/Chichavl_infra/packer/variables.json.example ~/build/Otus-DevOps-2018-02/Chichavl_infra/packer/variables.json
-  - find ~/build/Otus-DevOps-2018-02/Chichavl_infra/packer -type f -name "*.json" -exec packer validate {} \;
-  - find ~/build/Otus-DevOps-2018-02/Chichavl_infra/terraform/stage -type f -name "*.tf" -exec terraform validate {} \;
-  - find ~/build/Otus-DevOps-2018-02/Chichavl_infra/terraform/prod -type f -name "*.tf" -exec terraform validate {} \;
+  - find ~/build/Otus-DevOps-2018-02/Chichavl_infra/packer -type f -name "*.json" -exec packer validate -var-file=~/build/Otus-DevOps-2018-02/Chichavl_infra/packer/variables.json.example {} \;
+  - terraform validate -var-file=~/build/Otus-DevOps-2018-02/Chichavl_infra/terraform/stage/terraform.tfvars.example  ~/build/Otus-DevOps-2018-02/Chichavl_infra/terraform/stage
+  - terraform validate -var-file=~/build/Otus-DevOps-2018-02/Chichavl_infra/terraform/prod/terraform.tfvars.example  ~/build/Otus-DevOps-2018-02/Chichavl_infra/terraform/prod
   - find ~/build/Otus-DevOps-2018-02/Chichavl_infra/terraform/stage -type f -name "*.tf" -exec tflint {} \;
   - find ~/build/Otus-DevOps-2018-02/Chichavl_infra/terraform/prod -type f -name "*.tf" -exec tflint {} \;
   - find ~/build/Otus-DevOps-2018-02/Chichavl_infra/ansible/playbooks -type f -name "*.yml" -exec ansible-lint {} \; 
