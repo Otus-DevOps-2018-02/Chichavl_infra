@@ -32,23 +32,6 @@ resource "google_compute_instance" "app" {
     agent = false
     private_key = "${file(var.private_key_path)}"
     }
-
-  provisioner "file" {
-        content = "${data.template_file.systemd_unit.rendered}"
-        destination = "/tmp/puma.service"
-  }
-
-  provisioner "remote-exec" {
-        script = "${path.module}/files/deploy.sh"
-  }
-}
-
-data "template_file" "systemd_unit" {
-      template = "${file("${path.module}/files/puma.service.tpl")}"
-
-      vars {
-        db_ip = "${var.db_ip}"
-      }
 }
 
 resource "google_compute_firewall" "firewall_puma" {
