@@ -33,7 +33,7 @@ install:
   - echo "Stubbing ssh keys"
   - touch ~/.ssh/appuser.pub
 script:
-  - find ~/build/Otus-DevOps-2018-02/Chichavl_infra/packer -type f -name "*.json" -exec packer validate -var-file=~/build/Otus-DevOps-2018-02/Chichavl_infra/packer/variables.json.example {} \;
+  - cd ~/build/Otus-DevOps-2018-02/Chichavl_infra/packer && find . -type f -name "*.json" -exec packer validate -var-file=variables.json.example {} \;
   - cd ~/build/Otus-DevOps-2018-02/Chichavl_infra/terraform/stage/ && terraform init && terraform validate -var-file=terraform.tfvars.example  .
   - cd ~/build/Otus-DevOps-2018-02/Chichavl_infra/terraform/prod/ && terraform init && terraform validate -var-file=terraform.tfvars.example  .
   - find ~/build/Otus-DevOps-2018-02/Chichavl_infra/terraform/stage -type f -name "*.tf" -exec tflint {} \;
