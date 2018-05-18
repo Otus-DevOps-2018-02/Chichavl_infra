@@ -1,5 +1,6 @@
 # Chichavl_infra
 Chichavl Infra repository
+[![Build Status](https://travis-ci.org/Otus-DevOps-2018-02/Chichavl_infra.svg?branch=master)](https://travis-ci.org/Otus-DevOps-2018-02/Chichavl_infra)
 
 # Подключение через bastion host
 
