@@ -34,7 +34,8 @@ install:
   - touch ~/.ssh/appuser.pub
 script:
   - cd ~/build/Otus-DevOps-2018-02/Chichavl_infra/ && find . -type f -name "*.json" -exec packer validate -var-file=packer/variables.json.example {} \;
-  - cd ~/build/Otus-DevOps-2018-02/Chichavl_infra/terraform/stage/ && terraform init && terraform validate -var-file=terraform.tfvars.example . && tflint --error-with-issues .
+  - cd ~/build/Otus-DevOps-2018-02/Chichavl_infra/terraform/stage/ && terraform init && terraform validate -var-file=terraform.tfvars.example .
+  - tflint --error-with-issues .
   - cd ~/build/Otus-DevOps-2018-02/Chichavl_infra/terraform/prod/ && terraform init && terraform validate -var-file=terraform.tfvars.example . && tflint --error-with-issues .
   - cat /home/travis/.travis/job_stages
   - find ~/build/Otus-DevOps-2018-02/Chichavl_infra/ansible/playbooks -type f -name "*.yml" -exec ansible-lint {} \; 
