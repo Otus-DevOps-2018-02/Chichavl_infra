@@ -5,8 +5,8 @@ before_install:
   - curl https://raw.githubusercontent.com/express42/otus-homeworks/2018-02/run.sh |  bash
   - echo "Ansible begin"
   - sudo apt-get update 
-  - sudo apt-get install -y ansible
-  - sudo pip2 install splitter ansible-lint
+  - sudo apt-get install -y python2.7 python-pip
+  - sudo pip2 install ansible==2.5.3 ansible-lint==3.4.21
 install:
   - echo "Packer begin"
   -  packer_url=$(curl https://releases.hashicorp.com/index.json | jq '{packer}' | egrep "linux.*amd64" | sort --version-sort -r | head -1 | awk -F[\"] '{print $4}')
