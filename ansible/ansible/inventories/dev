@@ -1,0 +1,25 @@
+all:
+  children:
+    db:
+      hosts:
+        dbserver:
+          ansible_host: 10.10.10.10
+
+      vars:
+        mongo_bind_ip: 0.0.0.0
+
+    app:
+      hosts:
+        appserver:
+          ansible_host: 10.10.10.20
+
+      vars:
+        db_host: 10.10.10.10
+        nginx_sites:
+          default:
+            - listen 80
+            - server_name "reddit"
+            - location / {
+                proxy_pass http://127.0.0.1:9292;
+              }
+
