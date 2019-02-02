@@ -30,7 +30,8 @@
         {
             "type":"ansible",
             "playbook_file":"ansible/playbooks/packer_db.yml",
-            "user": "appuser"
+            "user": "appuser",
+            "ansible_env_vars": [ "ANSIBLE_CONFIG=./ansible/ansible.cfg" ]
         }
     ]
 }
